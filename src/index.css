@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .heading {
+    @apply font-kalnia text-gray-950;
+  }
+}
