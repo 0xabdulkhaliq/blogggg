@@ -1,5 +1,6 @@
-import { ArrowDown, ArrowUp } from "react-feather";
+import { ChevronUp, ChevronDown } from "react-feather";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -14,15 +15,15 @@ function Navbar() {
       </div>
 
       <div className="flex gap-2 mt-5 justify-evenly align-center md:hidden">
-        <a href="#" className="underline underline-offset-2">
+        <Link to={"/"} className="underline underline-offset-2">
           Home
-        </a>
-        <a href="#" className="underline underline-offset-2">
+        </Link>
+        <Link to={"/blog"} className="underline underline-offset-2">
           Blog
-        </a>
-        <a href="#" className="underline underline-offset-2">
+        </Link>
+        <Link to={"/about"} className="underline underline-offset-2">
           About
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -48,7 +49,7 @@ export default function Header() {
           className="p-2 bg-gray-50 absolute -top-10 right-0 rounded-full rounded-b-none border border-gray-400 border-b-gray-50"
           onClick={() => setNavOpen(!isNavOpen)}
         >
-          {isNavOpen ? <ArrowDown /> : <ArrowUp />}
+          {isNavOpen ? <ChevronDown /> : <ChevronUp />}
         </button>
         <Navbar />
       </div>
