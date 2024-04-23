@@ -1,16 +1,17 @@
-import Card from "./Card";
 import { ArrowDown } from "react-feather";
 import { useState, useEffect } from "react";
 import { listPosts } from "../utils/blog";
+import Card from "./Card";
+import CardSkeleton from "./CardSkeleton";
 
 export default function PostsIntro() {
   const [loading, setLoading] = useState(true);
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState(false);
 
   const getPosts = async () => {
     const result = await listPosts(3, 0, "all");
+
     setPosts(result.posts);
-    console.log(result.posts);
     return new Promise((resolve) => setTimeout(resolve, 1500));
   };
 
@@ -20,10 +21,18 @@ export default function PostsIntro() {
     }, 250);
   }, []);
 
-  return (
+  return !loading && !posts ? (
+    "Please try again later"
+  ) : (
     <>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-3 mb-4 max-w-[82rem] mx-auto">
-        {!loading &&
+        {loading ? (
+          <>
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </>
+        ) : (
           posts.map((post) => (
             <Card
               key={post._id}
@@ -32,7 +41,8 @@ export default function PostsIntro() {
               date={post.createdAt}
               id={post._id}
             />
-          ))}
+          ))
+        )}
       </div>
       <div className="my-9 flex flex-col justify-center items-center">
         <p>More</p>
