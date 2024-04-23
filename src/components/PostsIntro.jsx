@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { listPosts } from "../utils/blog";
 import Card from "./Card";
 import CardSkeleton from "./CardSkeleton";
+import ServiceUnavailable from "./ServiceUnavailable";
 
 export default function PostsIntro() {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ export default function PostsIntro() {
   }, []);
 
   return !loading && !posts ? (
-    "Please try again later"
+    <ServiceUnavailable />
   ) : (
     <>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 px-3 mb-4 max-w-[82rem] mx-auto">
