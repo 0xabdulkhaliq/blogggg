@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.card {
+  filter: grayscale(0.25) contrast(0.9);
+}
+
 @layer components {
   .heading {
     @apply font-kalnia text-gray-950;
