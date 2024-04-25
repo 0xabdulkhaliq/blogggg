@@ -1,4 +1,4 @@
-import PostsIntro from "../components/PostsIntro";
+import Posts from "../components/Posts";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
           Welcome to Abdul Khalid's personal blog, more like a Memoir!
         </p>
       </div>
-      <PostsIntro />
+      <Posts postInitLimit={3} />
     </main>
   );
 }
