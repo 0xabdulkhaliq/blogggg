@@ -10,7 +10,7 @@ export default function Home() {
           Welcome to Abdul Khalid's personal blog, more like a Memoir!
         </p>
       </div>
-      <Posts postInitLimit={3} />
+      <Posts postInitLimit={3} showViewMoreOption={true} />
     </main>
   );
 }
