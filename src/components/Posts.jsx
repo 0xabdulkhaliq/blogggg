@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRightCircle } from "react-feather";
+import { ArrowDown, ChevronRight, ChevronLeft } from "react-feather";
 import { useState, useEffect } from "react";
 import { listPosts } from "../utils/blog";
 import Card from "./Card";
@@ -11,13 +11,8 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
   const [posts, setPosts] = useState(false);
   const [tag, setTag] = useState("All");
 
-  const getPosts = async () => {
-    const result = await listPosts(
-      postInitLimit,
-      (posts && posts.posts.length + posts.offset) || 0,
-      tag
-    );
-    console.log(tag, result);
+  const getPosts = async (offset) => {
+    const result = await listPosts(postInitLimit, offset || 0, tag);
 
     setPosts(result);
     return new Promise((resolve) => setTimeout(resolve, 1500));
@@ -29,9 +24,9 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
     setPosts(false);
   };
 
-  const fetchPosts = () => {
+  const fetchPosts = (offset) => {
     setLoading(true);
-    getPosts().finally(() => setLoading(false));
+    getPosts(offset).finally(() => setLoading(false));
   };
 
   useEffect(() => {
@@ -45,14 +40,13 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
   ) : (
     <div className="px-3 mb-4 max-w-[82rem] mx-auto">
       {showTags && (
-        <div className="sticky top-0 z-10 flex justify-end gap-4 mt-4 mb-8">
+        <div className="sticky top-0 z-10 flex justify-center md:justify-end gap-4 mt-4 mb-8">
           {["All", "JavaScript", "CSS", "Personal"].map((item) => (
             <button
               key={item}
               onClick={() => updateTag(item)}
-              className={`px-4 py-1 outline outline-1 outline-gray-400 ${
-                tag === item && "bg-gray-800 text-gray-50"
-              }`}
+              disabled={tag === item}
+              className={`px-4 py-1 outline outline-1 outline-gray-400 disabled:bg-gray-800 disabled:text-gray-50`}
             >
               {item}
             </button>
@@ -77,19 +71,36 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
       {showViewMoreOption ? (
         <Link
           to={"/blog"}
-          className="my-9 flex items-center justify-center mx-auto"
+          className="my-9 flex items-center flex-col justify-center mx-auto"
         >
           View More
-          <ArrowRightCircle color="#444" strokeWidth={1.2} className="ml-2" />
+          <ArrowDown color="#444" className="mt-2 animate-bounce" />
         </Link>
       ) : (
-        <button
-          onClick={fetchPosts}
-          className="my-9 flex flex-col items-center mx-auto"
-        >
-          More
-          <ArrowDown color="#444" className="mt-2 animate-bounce" />
-        </button>
+        posts && (
+          <div className="my-9 flex justify-center gap-2 items-center mx-auto">
+            <button
+              onClick={() => fetchPosts(posts.offset - 3)}
+              disabled={!posts.offset}
+              aria-label="Previous page"
+              className="w-8 h-8 grid place-items-center outline outline-1 outline-gray-400 disabled:opacity-50"
+            >
+              <ChevronLeft color="#444" />
+            </button>
+            <p className="grid place-items-center px-3 h-8">
+              {posts.offset ? posts.totalCount / posts.offset : 1} of {""}
+              {Math.ceil(posts.totalCount / posts.limit)}
+            </p>
+            <button
+              onClick={() => fetchPosts(posts.offset + 3)}
+              disabled={posts.offset * 2 >= posts.totalCount}
+              aria-label="Next page"
+              className="w-8 h-8 grid place-items-center outline outline-1 outline-gray-400 disabled:opacity-50"
+            >
+              <ChevronRight color="#444" />
+            </button>
+          </div>
+        )
       )}
     </div>
   );
