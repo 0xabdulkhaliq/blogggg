@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import Blog from "../pages/Blog";
 import About from "../pages/About";
 import Authenticate from "../pages/Authenticate";
+import BlogPost from "../components/BlogPost";
 
 const routes = [
   {
@@ -28,6 +29,10 @@ const routes = [
       {
         path: "signup",
         element: <Authenticate />,
+      },
+      {
+        path: "blog/post/:postId",
+        element: <BlogPost />,
       },
     ],
   },

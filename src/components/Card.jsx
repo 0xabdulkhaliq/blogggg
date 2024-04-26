@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Card({ date, title, description, cover, id }) {
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -17,12 +19,12 @@ export default function Card({ date, title, description, cover, id }) {
         enim excepturi est voluptates! Error soluta nulla ipsam repudiandae illo
         architecto numquam obcaecati assumenda sapiente consequatur.
       </p>
-      <a
+      <Link
         className="p-3 w-max float-right pt-1 block text-right underline underline-offset-4"
-        href="#"
+        to={`post/${id}`}
       >
         Read ---&gt;
-      </a>
+      </Link>
     </div>
   );
 }
