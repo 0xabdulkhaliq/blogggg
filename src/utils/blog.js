@@ -11,8 +11,15 @@ export const listPosts = async (limit, offset, tag) => {
 
 export const viewPost = async (id) => {
   try {
-    const request = await fetch(`http://localhost:3000/blog/view-post/${id}`);
-    return await request.json();
+    const postReq = await fetch(`http://localhost:3000/blog/view-post/${id}`);
+    const commentsReq = await fetch(
+      `http://localhost:3000/blog/${id}/comments`
+    );
+    const post = await postReq.json();
+    const comments = await commentsReq.json();
+    post.comments = comments.data;
+
+    return post;
   } catch (error) {
     console.log("Error during Fetching Posts: ", error);
   }
