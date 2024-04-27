@@ -6,12 +6,18 @@ function Navbar() {
   return (
     <div className="bg-gray-50 p-3 outline outline-1 outline-gray-400 md:outline-none md:p-0 md:flex items-center">
       <div className="flex justify-evenly gap-3">
-        <button className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2">
+        <Link
+          to={"/login"}
+          className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
+        >
           Login
-        </button>
-        <button className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2">
+        </Link>
+        <Link
+          to={"/signup"}
+          className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
+        >
           Signup
-        </button>
+        </Link>
       </div>
 
       <div className="flex gap-2 mt-5 justify-evenly align-center md:hidden">
@@ -54,7 +60,7 @@ export default function Header() {
         <Navbar />
       </div>
       <div
-        className={`fixed inset-0 bg-[#0005] backdrop-blur-sm opacity-0 transition-opacity duration-200 invisible md:hidden ${
+        className={`fixed z-10 inset-0 bg-[#0005] backdrop-blur-sm opacity-0 transition-opacity duration-200 invisible md:hidden ${
           isNavOpen && "!visible opacity-100"
         }`}
       ></div>

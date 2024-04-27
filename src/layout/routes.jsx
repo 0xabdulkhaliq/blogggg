@@ -24,11 +24,11 @@ const routes = [
       },
       {
         path: "login",
-        element: <Authenticate />,
+        element: <Authenticate action={"Login"} />,
       },
       {
         path: "signup",
-        element: <Authenticate />,
+        element: <Authenticate action={"Sign Up"} />,
       },
       {
         path: "blog/post/:postId",
