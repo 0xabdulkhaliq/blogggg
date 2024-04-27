@@ -13,7 +13,6 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
 
   const getPosts = async (offset) => {
     const result = await listPosts(postInitLimit, offset || 0, tag);
-
     setPosts(result);
     return new Promise((resolve) => setTimeout(resolve, 1500));
   };
@@ -41,7 +40,7 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
     <div className="px-3 mb-4 max-w-[82rem] mx-auto">
       {showTags && (
         <div className="sticky top-0 z-10 flex justify-center md:justify-end gap-4 mt-4 mb-8">
-          {["All", "JavaScript", "CSS", "Personal"].map((item) => (
+          {["All", "Frontend", "Backend", "Extras"].map((item) => (
             <button
               key={item}
               onClick={() => updateTag(item)}
@@ -93,7 +92,10 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
             </p>
             <button
               onClick={() => fetchPosts(posts.offset + 3)}
-              disabled={posts.offset * 2 >= posts.totalCount}
+              disabled={
+                posts.offset * 2 >= posts.totalCount ||
+                posts.limit >= posts.totalCount
+              }
               aria-label="Next page"
               className="w-8 h-8 grid place-items-center outline outline-1 outline-gray-400 disabled:opacity-50"
             >
