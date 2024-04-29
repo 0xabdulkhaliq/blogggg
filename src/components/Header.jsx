@@ -1,26 +1,52 @@
 import { ChevronUp, ChevronDown } from "react-feather";
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../context/AuthenticationContext";
 
 function Navbar() {
+  const { user, loading } = useAuth();
+
   return (
     <div className="bg-gray-50 p-3 outline outline-1 outline-gray-400 md:outline-none md:p-0 md:flex items-center">
-      <div className="flex justify-evenly gap-3">
-        <Link
-          to={"/login"}
-          className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
-        >
-          Login
-        </Link>
-        <Link
-          to={"/signup"}
-          className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
-        >
-          Signup
-        </Link>
-      </div>
+      {loading ? (
+        <div className="flex gap-4 justify-center mt-4 md:m-0 items-center animate-pulse">
+          <div className="w-8 h-8 rounded-full bg-gray-800 shadow-md"></div>
+          <div className="w-32 h-5 bg-gray-800 shadow-md"></div>
+        </div>
+      ) : user ? (
+        <div className="flex mt-4 justify-around items-center gap-3 md:m-0 md:gap-6">
+          <div className="flex gap-2 items-center">
+            <img
+              src="https://github.com/0xabdulkhalid.png"
+              alt=""
+              className="w-8 h-8 rounded-full bg-gray-800 shadow-md"
+            />
+            <p className="font-bold tracking-wider">0xabdulkhalid</p>
+          </div>
 
-      <div className="flex gap-2 mt-5 justify-evenly align-center md:hidden">
+          <button className="heading px-8 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2">
+            Logout
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-evenly gap-3">
+          <Link
+            to={"/login"}
+            className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
+          >
+            Login
+          </Link>
+          <Link
+            to={"/signup"}
+            className="heading w-full px-4 py-1 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
+          >
+            Signup
+          </Link>
+        </div>
+      )}
+
+      <hr className="w-full mt-6 border-gray-300 md:hidden" />
+      <div className="flex gap-2 mt-5 my-2 justify-evenly align-center md:hidden">
         <Link to={"/"} className="underline underline-offset-2">
           Home
         </Link>
