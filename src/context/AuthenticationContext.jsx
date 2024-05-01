@@ -43,16 +43,29 @@ export const AuthProvider = ({ children }) => {
       setUser(data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-    return new Promise((resolve) => setTimeout(resolve, 500));
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:3000/user/logout", {
+        credentials: "include",
+      });
+
+      if (response.ok) setUser(null);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    validateAuth().finally(() => setLoading(false));
+    validateAuth();
   }, []);
 
   return (

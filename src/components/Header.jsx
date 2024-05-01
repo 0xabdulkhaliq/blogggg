@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthenticationContext";
 
 function Navbar() {
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   return (
     <div className="bg-gray-50 p-3 outline outline-1 outline-gray-400 md:outline-none md:p-0 md:flex items-center">
@@ -24,7 +24,10 @@ function Navbar() {
             <p className="font-bold tracking-wider">0xabdulkhalid</p>
           </div>
 
-          <button className="heading px-8 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2">
+          <button
+            onClick={logout}
+            className="heading px-8 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
+          >
             Logout
           </button>
         </div>
