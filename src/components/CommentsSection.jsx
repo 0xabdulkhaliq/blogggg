@@ -2,8 +2,9 @@ import { Trash2, Loader } from "react-feather";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthenticationContext";
 import { viewCommentsForPost } from "../utils/blog";
+import Comment from "./Comment";
 
-export default function Comments({ postId }) {
+export default function CommentsBlock({ postId }) {
   const { user } = useAuth();
   const commentRef = useRef("");
   const [deleteModal, setDeleteModal] = useState(null);
@@ -80,56 +81,13 @@ export default function Comments({ postId }) {
       <div className="flex flex-col gap-4 mb-1">
         {comments &&
           comments.map((item) => (
-            <div
+            <Comment
               key={item._id}
-              className="relative outline outline-1 outline-gray-300 p-3 rounded-lg md:p-5"
-            >
-              <figure className="flex gap-4">
-                <img
-                  src={`https://github.com/${item.author}.png`}
-                  alt=""
-                  className="w-12 h-12 rounded-full outline outline-1 outline-gray-400"
-                />
-
-                <figcaption>
-                  <p className="text-lg font-bold tracking-wider">
-                    {item.author}
-                  </p>
-                  <time className="text-xs">
-                    {new Date(item.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                </figcaption>
-              </figure>
-
-              <hr className="my-3 md:my-5" />
-
-              <p className="whitespace-pre-line opacity-85">{item.content}</p>
-
-              {user && user.username === item.author && (
-                <button
-                  aria-label="Delete Comment"
-                  title="Delete Comment"
-                  disabled={deleteId}
-                  onClick={() => setDeleteModal(item._id)}
-                  className="absolute right-4 top-4 outline outline-1 transition-[background,transform] outline-red-300 bg-red-100 rounded-md p-2 hover:bg-red-200 hover:outline-red-400 hover:scale-110 active:scale-90 disabled:pointer-events-none"
-                >
-                  {deleteId && deleteId === item._id ? (
-                    <Loader
-                      strokeWidth={1.5}
-                      width={20}
-                      height={20}
-                      className="animate-spin"
-                    />
-                  ) : (
-                    <Trash2 strokeWidth={1.5} width={20} height={20} />
-                  )}
-                </button>
-              )}
-            </div>
+              user={user}
+              item={item}
+              setDeleteModal={setDeleteModal}
+              deleteId={deleteId}
+            />
           ))}
 
         {user && (
@@ -156,7 +114,7 @@ export default function Comments({ postId }) {
             </div>
             <button
               disabled={postCommentLoader}
-              className="outline float-end outline-1 transition-[background,transform] outline-blue-300 bg-blue-100 rounded mt-3 px-3 py-1 hover:bg-blue-200 hover:outline-blue-400 active:scale-95 disabled:pointer-events-none"
+              className="outline float-end outline-1 transition-[background,transform] outline-indigo-300 bg-indigo-100 rounded mt-3 px-3 py-1 hover:bg-indigo-200 hover:outline-indigo-400 active:scale-95 disabled:pointer-events-none"
             >
               {postCommentLoader ? (
                 <span className="flex">

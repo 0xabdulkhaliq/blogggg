@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { viewPost } from "../utils/blog";
 import Markdown from "react-markdown";
-import Comments from "./Comments";
+import CommentsBlock from "./CommentsSection";
 
 export default function BlogPost() {
   const { postId } = useParams();
@@ -42,7 +42,7 @@ export default function BlogPost() {
         {post.content}
       </Markdown>
       <hr />
-      <Comments postId={postId} />
+      <CommentsBlock postId={postId} />
     </div>
   );
 }
