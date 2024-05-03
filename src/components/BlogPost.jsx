@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { viewPost } from "../utils/blog";
 import Markdown from "react-markdown";
+import Comments from "./Comments";
 
 export default function BlogPost() {
   const { postId } = useParams();
@@ -41,41 +42,7 @@ export default function BlogPost() {
         {post.content}
       </Markdown>
       <hr />
-      <h2 className="font-kalnia text-2xl md:text-3xl my-5">Comments</h2>
-      <div className="flex flex-col gap-4">
-        {post.comments &&
-          post.comments.map((item) => (
-            <div
-              key={item._id}
-              className="outline outline-1 outline-gray-300 p-3 rounded-lg md:p-5"
-            >
-              <figure className="flex gap-4">
-                <img
-                  src={`https://github.com/${item.author}.png`}
-                  alt=""
-                  className="w-12 h-12 rounded-full outline outline-1 outline-gray-400"
-                />
-
-                <figcaption>
-                  <p className="text-lg font-bold tracking-wider">
-                    {item.author}
-                  </p>
-                  <time className="text-xs">
-                    {new Date(item.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                </figcaption>
-              </figure>
-
-              <hr className="my-3 md:my-5" />
-
-              <p className="whitespace-pre-line opacity-85">{item.content}</p>
-            </div>
-          ))}
-      </div>
+      <Comments postId={postId} />
     </div>
   );
 }
