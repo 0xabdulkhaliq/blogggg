@@ -1,13 +1,52 @@
 import { Trash2, Loader } from "react-feather";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthenticationContext";
 import { viewCommentsForPost } from "../utils/blog";
 
 export default function Comments({ postId }) {
   const { user } = useAuth();
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [deleteId, setDeleteId] = useState(false);
+  const commentRef = useRef("");
+  const [deleteModal, setDeleteModal] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
   const [comments, setComments] = useState(null);
+  const [postCommentLoader, setPostCommentLoader] = useState(false);
+
+  const createComment = async (e) => {
+    e.preventDefault();
+
+    if (commentRef.current.trim() === "") return;
+
+    setPostCommentLoader(true);
+    const content = commentRef.current;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/blog/create-comment/${postId}`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
+
+      if (response.ok) {
+        const comment = await response.json();
+
+        e.target.reset();
+
+        setTimeout(() => {
+          setComments([...comments, comment.comment]);
+        }, 500);
+      }
+    } catch (error) {
+      console.log("Error during Posting comment: ", error);
+    } finally {
+      setPostCommentLoader(null);
+    }
+  };
 
   const deleteComment = (id) => {
     setDeleteModal(false);
@@ -70,12 +109,13 @@ export default function Comments({ postId }) {
 
               <p className="whitespace-pre-line opacity-85">{item.content}</p>
 
-              {item.author === user.username && (
+              {user && user.username === item.author && (
                 <button
                   aria-label="Delete Comment"
                   title="Delete Comment"
+                  disabled={deleteId}
                   onClick={() => setDeleteModal(item._id)}
-                  className="absolute right-4 top-4 outline outline-1 transition-[background,transform] outline-red-300 bg-red-100 rounded-md p-2 hover:bg-red-200 hover:outline-red-400 hover:scale-110 active:scale-90"
+                  className="absolute right-4 top-4 outline outline-1 transition-[background,transform] outline-red-300 bg-red-100 rounded-md p-2 hover:bg-red-200 hover:outline-red-400 hover:scale-110 active:scale-90 disabled:pointer-events-none"
                 >
                   {deleteId && deleteId === item._id ? (
                     <Loader
@@ -91,6 +131,49 @@ export default function Comments({ postId }) {
               )}
             </div>
           ))}
+
+        {user && (
+          <form
+            className="relative outline outline-1 outline-gray-300 p-3 rounded-lg"
+            onSubmit={createComment}
+          >
+            <div className="flex gap-3">
+              <img
+                src={`https://github.com/${user.username}.png`}
+                alt=""
+                className="w-12 h-12 rounded-full outline outline-1 outline-gray-400"
+              />
+              <textarea
+                name="content"
+                rows="4"
+                spellCheck={false}
+                required
+                onChange={(e) => {
+                  commentRef.current = e.target.value;
+                }}
+                className="bg-gray-100 p-2 rounded outline outline-1 outline-gray-300 w-full"
+              ></textarea>
+            </div>
+            <button
+              disabled={postCommentLoader}
+              className="outline float-end outline-1 transition-[background,transform] outline-blue-300 bg-blue-100 rounded mt-3 px-3 py-1 hover:bg-blue-200 hover:outline-blue-400 active:scale-95 disabled:pointer-events-none"
+            >
+              {postCommentLoader ? (
+                <span className="flex">
+                  Posting Comment..
+                  <Loader
+                    strokeWidth={1.5}
+                    width={20}
+                    height={20}
+                    className="animate-spin"
+                  />
+                </span>
+              ) : (
+                "Post Comment"
+              )}
+            </button>
+          </form>
+        )}
       </div>
       <div
         className={`grid place-items-center fixed z-20 inset-0 px-2 bg-[#0005] backdrop-blur-sm opacity-0 transition-opacity duration-200 invisible ${
