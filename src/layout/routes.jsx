@@ -4,6 +4,7 @@ import Blog from "../pages/Blog";
 import About from "../pages/About";
 import Authenticate from "../pages/Authenticate";
 import BlogPost from "../components/BlogPost";
+import Admin from "../pages/Admin";
 
 const routes = [
   {
@@ -33,6 +34,10 @@ const routes = [
       {
         path: "blog/post/:postId",
         element: <BlogPost />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
       },
     ],
   },

@@ -14,7 +14,7 @@ function Navbar() {
           <div className="w-32 h-5 bg-gray-800 shadow-md"></div>
         </div>
       ) : user ? (
-        <div className="flex mt-4 justify-around items-center gap-3 md:m-0 md:gap-6">
+        <div className="flex flex-col md:flex-row mt-4 justify-around items-center gap-3 md:m-0 md:gap-6">
           <div className="flex gap-2 items-center">
             <img
               src="https://github.com/0xabdulkhalid.png"
@@ -24,12 +24,25 @@ function Navbar() {
             <p className="font-bold tracking-wider">0xabdulkhalid</p>
           </div>
 
-          <button
-            onClick={logout}
-            className="heading px-8 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:pb-2"
-          >
-            Logout
-          </button>
+          <hr className="my-3 w-full md:hidden" />
+
+          <div className="flex gap-3 w-full text-center md:justify-end">
+            {user.isAdmin && (
+              <Link
+                to={"/admin"}
+                className="heading block w-full px-6 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:w-auto"
+              >
+                Admin Portal
+              </Link>
+            )}
+
+            <button
+              onClick={logout}
+              className="heading w-full px-6 py-1 pb-2 bg-gray-100 outline outline-1 outline-gray-400 md:w-auto"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex justify-evenly gap-3">
