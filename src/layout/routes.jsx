@@ -4,7 +4,9 @@ import Blog from "../pages/Blog";
 import About from "../pages/About";
 import Authenticate from "../pages/Authenticate";
 import BlogPost from "../components/BlogPost";
-import Admin from "../pages/Admin";
+import Admin from "./Admin";
+import PostEditor from "../pages/PostEditor";
+import Posts from "../components/Posts";
 
 const routes = [
   {
@@ -32,12 +34,22 @@ const routes = [
         element: <Authenticate action={"Sign Up"} />,
       },
       {
-        path: "blog/post/:postId",
+        path: "post/:postId",
         element: <BlogPost />,
       },
       {
         path: "admin",
         element: <Admin />,
+        children: [
+          {
+            index: true,
+            element: <Posts postInitLimit={3} showTags={true} isAdmin={true} />,
+          },
+          {
+            path: "create-post",
+            element: <PostEditor />,
+          },
+        ],
       },
     ],
   },

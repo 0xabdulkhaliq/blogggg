@@ -1,4 +1,9 @@
-import { ArrowDown, ChevronRight, ChevronLeft } from "react-feather";
+import {
+  ArrowDown,
+  ChevronRight,
+  ChevronLeft,
+  PlusCircle,
+} from "react-feather";
 import { useState, useEffect } from "react";
 import { listPosts } from "../utils/blog";
 import Card from "./Card";
@@ -52,33 +57,50 @@ export default function Posts({
       {showTags && (
         <div
           className={`sticky bg-gray-50 shadow-[0_20px_20px_#f9fafb] ${
-            isAdmin ? "top-0" : "top-[3.65rem]"
-          } md:top-[3.65rem] md:px-3 z-10 flex flex-col md:flex-row gap-4 justify-center md:justify-end pt-3 pb-2 mb-5 md:gap-8`}
+            isAdmin ? "-top-1" : "top-[3.65rem]"
+          } md:top-[3.65rem] z-10 flex flex-col md:flex-row gap-4 items-center justify-center md:justify-end pt-5 pb-2 mb-5 md:px-3 md:gap-8`}
         >
           {isAdmin && (
             <>
-              <div className="flex justify-center gap-4 items-center">
-                Published
-                <div className="w-12 h-6 outline outline-1 outline-gray-400 relative">
-                  <div
-                    className={`w-6 h-6 bg-gray-800 transition-transform ${
-                      isPublished &&
-                      "translate-x-full rotate-[135deg] scale-110"
-                    }`}
-                  ></div>
-                  <button
-                    onClick={() =>
-                      toggleReset(() => {
-                        setPublished(!isPublished);
-                      })
-                    }
-                    type="button"
-                    className="absolute inset-0 w-full"
-                    aria-pressed={isPublished}
-                  ></button>
+              <Link
+                to={"create-post"}
+                className="gap-2 items-center uppercase tracking-wider hidden md:flex absolute left-3"
+              >
+                <PlusCircle strokeWidth={1} color="#444" />
+                Add Post
+              </Link>
+              <div className="px-6 w-full md:p-0 md:w-auto flex justify-between items-center">
+                <Link
+                  to={"create-post"}
+                  className="flex gap-2 items-center uppercase tracking-wider md:hidden"
+                >
+                  <PlusCircle strokeWidth={1} color="#444" />
+                  Add Post
+                </Link>
+
+                <div className="flex gap-4 items-center">
+                  Published
+                  <div className="w-12 h-6 outline outline-1 outline-gray-400 relative">
+                    <div
+                      className={`w-6 h-6 bg-gray-800 transition-transform ${
+                        isPublished &&
+                        "translate-x-full rotate-[135deg] scale-110"
+                      }`}
+                    ></div>
+                    <button
+                      onClick={() =>
+                        toggleReset(() => {
+                          setPublished(!isPublished);
+                        })
+                      }
+                      type="button"
+                      className="absolute inset-0 w-full"
+                      aria-pressed={isPublished}
+                    ></button>
+                  </div>
                 </div>
               </div>
-              <div className="w-11/12 mx-auto h-[1px] bg-gray-300 md:w-[1px] md:h-auto md:m-0"></div>
+              <div className="w-11/12 mx-auto h-[1px] bg-gray-300 md:w-[1px] md:h-7 md:m-0"></div>
             </>
           )}
           <div className="flex w-full md:w-auto justify-evenly md:gap-4">
