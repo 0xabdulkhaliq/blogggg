@@ -1,7 +1,10 @@
-export const listPosts = async (limit, offset, tag) => {
+export const listPosts = async (limit, offset, tag, isPublished) => {
   try {
     const request = await fetch(
-      `http://localhost:3000/blog/list-posts?limit=${limit}&tag=${tag}&offset=${offset}`
+      `http://localhost:3000/blog/list-posts?limit=${limit}&tag=${tag}&offset=${offset}${
+        isPublished ? "" : "&isNotPublished=true"
+      }`,
+      { credentials: "include" }
     );
     return await request.json();
   } catch (error) {

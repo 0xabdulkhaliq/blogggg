@@ -6,19 +6,30 @@ import CardSkeleton from "./CardSkeleton";
 import ServiceUnavailable from "./ServiceUnavailable";
 import { Link } from "react-router-dom";
 
-export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
+export default function Posts({
+  postInitLimit,
+  showTags,
+  showViewMoreOption,
+  isAdmin,
+}) {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState(false);
+  const [isPublished, setPublished] = useState(true);
   const [tag, setTag] = useState("All");
 
   const getPosts = async (offset) => {
-    const result = await listPosts(postInitLimit, offset || 0, tag);
+    const result = await listPosts(
+      postInitLimit,
+      offset || 0,
+      tag,
+      isAdmin ? isPublished : true
+    );
     setPosts(result);
     return new Promise((resolve) => setTimeout(resolve, 1500));
   };
 
-  const updateTag = (tag) => {
-    setTag(tag);
+  const toggleReset = (func) => {
+    func();
     setLoading(true);
     setPosts(false);
   };
@@ -32,27 +43,63 @@ export default function Posts({ postInitLimit, showTags, showViewMoreOption }) {
     setTimeout(() => {
       getPosts().finally(() => setLoading(false));
     }, 250);
-  }, [tag]);
+  }, [tag, isPublished]);
 
   return !loading && !posts ? (
     <ServiceUnavailable />
   ) : (
-    <div className="px-3 mb-4 max-w-[82rem] mx-auto">
+    <div className={`mb-4 max-w-[82rem] mx-auto ${loading && "w-full"}`}>
       {showTags && (
-        <div className="sticky top-0 z-10 flex justify-center md:justify-end gap-4 mt-4 mb-8">
-          {["All", "Frontend", "Backend", "Extras"].map((item) => (
-            <button
-              key={item}
-              onClick={() => updateTag(item)}
-              disabled={tag === item}
-              className={`px-4 py-1 outline outline-1 outline-gray-400 disabled:bg-gray-800 disabled:text-gray-50`}
-            >
-              {item}
-            </button>
-          ))}
+        <div
+          className={`sticky bg-gray-50 shadow-[0_20px_20px_#f9fafb] ${
+            isAdmin ? "top-0" : "top-[3.65rem]"
+          } md:top-[3.65rem] md:px-3 z-10 flex flex-col md:flex-row gap-4 justify-center md:justify-end pt-3 pb-2 mb-5 md:gap-8`}
+        >
+          {isAdmin && (
+            <>
+              <div className="flex justify-center gap-4 items-center">
+                Published
+                <div className="w-12 h-6 outline outline-1 outline-gray-400 relative">
+                  <div
+                    className={`w-6 h-6 bg-gray-800 transition-transform ${
+                      isPublished &&
+                      "translate-x-full rotate-[135deg] scale-110"
+                    }`}
+                  ></div>
+                  <button
+                    onClick={() =>
+                      toggleReset(() => {
+                        setPublished(!isPublished);
+                      })
+                    }
+                    type="button"
+                    className="absolute inset-0 w-full"
+                    aria-pressed={isPublished}
+                  ></button>
+                </div>
+              </div>
+              <div className="w-11/12 mx-auto h-[1px] bg-gray-300 md:w-[1px] md:h-auto md:m-0"></div>
+            </>
+          )}
+          <div className="flex w-full md:w-auto justify-evenly md:gap-4">
+            {["All", "Frontend", "Backend", "Extras"].map((item) => (
+              <button
+                key={item}
+                onClick={() =>
+                  toggleReset(() => {
+                    setTag(item);
+                  })
+                }
+                disabled={tag === item}
+                className={`px-4 py-1 outline outline-1 outline-gray-400 disabled:bg-gray-800 disabled:text-gray-50`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
         </div>
       )}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid px-3 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {loading
           ? Array(postInitLimit)
               .fill()
