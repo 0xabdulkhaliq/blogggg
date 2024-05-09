@@ -83,7 +83,9 @@ export default function Header() {
   return (
     <>
       <header className="sticky flex justify-between items-center top-0 z-20 w-full border-y border-y-gray-400 p-3 bg-gray-50">
-        <p className="heading text-2xl">Blogggg.</p>
+        <Link className="heading text-2xl" to={"/"}>
+          Blogggg.
+        </Link>
         <div className="hidden md:block">
           <Navbar />
         </div>

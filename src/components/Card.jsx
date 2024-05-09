@@ -21,7 +21,7 @@ export default function Card({ date, title, description, cover, id }) {
       </p>
       <Link
         className="p-3 w-max float-right pt-1 block text-right underline underline-offset-4"
-        to={`post/${id}`}
+        to={`/post/${id}`}
       >
         Read ---&gt;
       </Link>
