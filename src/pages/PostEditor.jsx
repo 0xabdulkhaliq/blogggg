@@ -1,6 +1,8 @@
 import { useState } from "react";
 import MarkdownEditor from "@uiw/react-markdown-editor";
 import { Loader } from "react-feather";
+import { useNavigate } from "react-router-dom";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 function InputGroup({
   label,
@@ -40,8 +42,12 @@ export default function PostEditor() {
   const [isPublished, setPublished] = useState(true);
   const [tag, setTag] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [cancelModal, setCancelModal] = useState(null);
+  const navigate = useNavigate();
 
   const preventDefaultSubmission = (e) => e.preventDefault();
+
+  const closePostEditor = () => navigate("/admin");
 
   const submitForm = async () => {
     if (
@@ -156,25 +162,39 @@ export default function PostEditor() {
           </div>
         </div>
 
-        <button
-          onClick={submitForm}
-          className="outline outline-1 transition-[background,transform] outline-indigo-400 bg-indigo-200 rounded px-4 py-2 hover:bg-indigo-300 hover:outline-indigo-500 active:scale-95 disabled:pointer-events-none md:px-12"
-        >
-          {loading ? (
-            <span className="flex">
-              Creating Post..
-              <Loader
-                strokeWidth={1.5}
-                width={20}
-                height={20}
-                className="animate-spin"
-              />
-            </span>
-          ) : (
-            "Create Post"
-          )}
-        </button>
+        <div className="flex font-bold justify-between p-4 items-center outline outline-1 outline-gray-300 rounded-sm mt-8">
+          <button
+            onClick={() => setCancelModal(true)}
+            className="outline outline-1 transition-[background,transform] outline-red-400 bg-red-200 rounded px-4 py-2 hover:bg-red-300 hover:outline-red-500 active:scale-95 md:px-12"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={submitForm}
+            className="outline outline-1 transition-[background,transform] outline-indigo-400 bg-indigo-200 rounded px-4 py-2 hover:bg-indigo-300 hover:outline-indigo-500 active:scale-95 disabled:pointer-events-none md:px-12"
+          >
+            {loading ? (
+              <span className="flex">
+                Creating Post..
+                <Loader
+                  strokeWidth={1.5}
+                  width={20}
+                  height={20}
+                  className="animate-spin"
+                />
+              </span>
+            ) : (
+              "Create Post"
+            )}
+          </button>
+        </div>
       </form>
+
+      <ConfirmationModal
+        modalVisibility={cancelModal}
+        toggleVisibility={setCancelModal}
+        confirmFunction={closePostEditor}
+      />
     </div>
   );
 }
