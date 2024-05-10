@@ -1,7 +1,15 @@
 import { useState } from "react";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import { Loader } from "react-feather";
 
-function InputGroup({ label, text, type, customElement = false }) {
+function InputGroup({
+  label,
+  text,
+  value,
+  setter,
+  type,
+  customElement = false,
+}) {
   return (
     <div>
       <label
@@ -13,6 +21,8 @@ function InputGroup({ label, text, type, customElement = false }) {
       {customElement || (
         <input
           type={type || "text"}
+          value={value}
+          onChange={(e) => setter(e.target.value)}
           id={label}
           name={label}
           className="w-full p-2 outline outline-1 outline-gray-300 rounded-sm"
@@ -28,14 +38,65 @@ export default function PostEditor() {
   const [cover, setCover] = useState("");
   const [description, setDescription] = useState("");
   const [isPublished, setPublished] = useState(true);
-  const [selectedTag, setSelectedTag] = useState("All");
+  const [tag, setTag] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const preventDefaultSubmission = (e) => e.preventDefault();
+
+  const submitForm = async () => {
+    if (
+      !title.trim() ||
+      !cover.trim() ||
+      !description.trim() ||
+      !tag ||
+      !content.trim()
+    )
+      return;
+
+    setLoading(true);
+
+    try {
+      await fetch("http://localhost:3000/blog/create-post", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          content,
+          cover,
+          description,
+          isPublished,
+          tag,
+        }),
+      });
+    } catch (error) {
+      console.log("Error during Creating the Post: ", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="mb-4 p-3 mx-auto w-full max-w-[82rem]">
-      <form noValidate className="flex flex-col gap-4">
-        <InputGroup label={"title"} />
-        <InputGroup label={"cover"} text={"Cover Image URL"} />
-        <InputGroup label={"description"} />
+      <form
+        onSubmit={preventDefaultSubmission}
+        noValidate
+        className="flex flex-col gap-4"
+      >
+        <InputGroup label={"title"} value={title} setter={setTitle} />
+        <InputGroup
+          label={"cover"}
+          text={"Cover Image URL"}
+          value={cover}
+          setter={setCover}
+        />
+        <InputGroup
+          label={"description"}
+          value={description}
+          setter={setDescription}
+        />
         <InputGroup
           label={"content"}
           customElement={
@@ -50,35 +111,35 @@ export default function PostEditor() {
           }
         />
 
-        <div className="flex flex-col gap-4 justify-between md:flex-row md:items-center outline outline-0 outline-gray-300 rounded-sm md:outline-1">
-          <fieldset className="flex flex-col w-full p-2 outline outline-1 outline-gray-300 rounded-sm gap-2 md:flex-row md:gap-4 md:p-4 md:outline-0 md:w-auto">
+        <div className="flex flex-col gap-4 justify-between md:flex-row md:items-center rounded-sm">
+          <fieldset className="flex flex-col w-full p-4 pt-3 outline outline-1 outline-gray-300 rounded-sm gap-2 md:flex-row md:gap-4 md:p-4 md:justify-center">
             <span>
               <legend className="heading text-base">Select Tag</legend>
             </span>
             <div className="flex w-full justify-between items-center md:w-auto md:gap-4">
-              {["All", "Frontend", "Backend", "Extras"].map((tag) => (
+              {["Frontend", "Backend", "Extras"].map((item) => (
                 <label
-                  key={tag}
-                  htmlFor={tag}
-                  className={`block h-max cursor-pointer px-4 py-1 outline outline-1 outline-gray-400 ${
-                    selectedTag === tag && "bg-gray-800 text-gray-50"
+                  key={item}
+                  htmlFor={item}
+                  className={`block rounded-sm h-max cursor-pointer px-4 py-1 outline outline-1 outline-gray-400 ${
+                    tag === item && "bg-gray-800 text-gray-50"
                   }`}
                 >
-                  {tag}
+                  {item}
                   <input
                     type="radio"
-                    id={tag}
-                    value={tag}
-                    checked={selectedTag === tag}
-                    onChange={(e) => setSelectedTag(e.target.value)}
+                    id={item}
+                    value={item}
+                    checked={tag === item}
+                    onChange={(e) => setTag(e.target.value)}
                     className="sr-only"
                   />
                 </label>
               ))}
             </div>
           </fieldset>
-          <div className="flex gap-2 w-full p-2 py-4 items-center outline outline-1 outline-gray-300 rounded-sm md:p-4 md:outline-0 md:w-auto">
-            <p className="heading text-base">Publish Post</p>
+          <div className="flex justify-between w-full p-4 items-center outline outline-1 outline-gray-300 rounded-sm md:p-[1.1rem] md:gap-4 md:justify-center">
+            <p className="heading text-base">Publish Post After Creating :</p>
             <div className="w-12 h-6 outline outline-1 outline-gray-400 relative">
               <div
                 className={`w-6 h-6 bg-gray-800 transition-transform ${
@@ -94,6 +155,25 @@ export default function PostEditor() {
             </div>
           </div>
         </div>
+
+        <button
+          onClick={submitForm}
+          className="outline outline-1 transition-[background,transform] outline-indigo-400 bg-indigo-200 rounded px-4 py-2 hover:bg-indigo-300 hover:outline-indigo-500 active:scale-95 disabled:pointer-events-none md:px-12"
+        >
+          {loading ? (
+            <span className="flex">
+              Creating Post..
+              <Loader
+                strokeWidth={1.5}
+                width={20}
+                height={20}
+                className="animate-spin"
+              />
+            </span>
+          ) : (
+            "Create Post"
+          )}
+        </button>
       </form>
     </div>
   );

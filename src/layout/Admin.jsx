@@ -6,7 +6,6 @@ export default function Admin() {
 
   if (user && user.isAdmin) {
     return <Outlet />;
-    //return <Posts postInitLimit={3} showTags={true} isAdmin={true} />;
   } else {
     return <Navigate to="/" />;
   }
