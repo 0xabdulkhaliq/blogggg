@@ -124,7 +124,7 @@ export default function CommentsBlock({ postId }) {
                     strokeWidth={1.5}
                     width={20}
                     height={20}
-                    className="animate-spin"
+                    className="animate-spin-slow"
                   />
                 </span>
               ) : (

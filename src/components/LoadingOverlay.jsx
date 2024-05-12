@@ -9,7 +9,7 @@ export default function LoadingOverlay({ isActive }) {
             strokeWidth={1.5}
             width={100}
             height={100}
-            className="animate-spin"
+            className="animate-spin-slow"
           />
           <h2 className="font-kalnia font-bold text-2xl md:text-3xl">
             Please Wait

@@ -98,7 +98,7 @@ export default function Comment({ item, user, setDeleteModal, deleteId }) {
                 strokeWidth={1.5}
                 width={20}
                 height={20}
-                className="animate-spin"
+                className="animate-spin-slow"
               />
             ) : (
               <Edit strokeWidth={1.5} width={20} height={20} />
@@ -116,7 +116,7 @@ export default function Comment({ item, user, setDeleteModal, deleteId }) {
                 strokeWidth={1.5}
                 width={20}
                 height={20}
-                className="animate-spin"
+                className="animate-spin-slow"
               />
             ) : (
               <Trash2 strokeWidth={1.5} width={20} height={20} />
