@@ -1,8 +1,8 @@
 import { useState } from "react";
 import MarkdownEditor from "@uiw/react-markdown-editor";
-import { Loader } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import ConfirmationModal from "../components/ConfirmationModal";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 function InputGroup({
   label,
@@ -51,7 +51,7 @@ export default function PostEditor({
   const [description, setDescription] = useState(post.description);
   const [isPublished, setPublished] = useState(post.isPublished);
   const [tag, setTag] = useState(post.tag);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(null);
   const [cancelModal, setCancelModal] = useState(null);
   const navigate = useNavigate();
 
@@ -192,22 +192,12 @@ export default function PostEditor({
             onClick={submitForm}
             className="outline outline-1 transition-[background,transform] outline-indigo-400 bg-indigo-200 rounded px-4 py-2 hover:bg-indigo-300 hover:outline-indigo-500 active:scale-95 disabled:pointer-events-none md:px-12"
           >
-            {loading ? (
-              <span className="flex">
-                {toUpdatePost ? "Updating" : "Creating"} Post..
-                <Loader
-                  strokeWidth={1.5}
-                  width={20}
-                  height={20}
-                  className="animate-spin"
-                />
-              </span>
-            ) : (
-              `${toUpdatePost ? "Update" : "Create"} Post`
-            )}
+            {toUpdatePost ? "Update" : "Create"} Post
           </button>
         </div>
       </form>
+
+      <LoadingOverlay isActive={loading} />
 
       <ConfirmationModal
         modalVisibility={cancelModal}

@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { viewPost } from "../utils/blog";
 import { useState, useEffect } from "react";
 import PostEditor from "./PostEditor";
+import LoadingOverlay from "../components/LoadingOverlay";
 
 export default function EditPost() {
   const { state } = useLocation();
@@ -17,9 +18,9 @@ export default function EditPost() {
     fetchPost();
   }, [postId]);
 
-  if (!post) {
-    return <div>Loading...</div>;
-  }
-
-  return <PostEditor post={post} toUpdatePost={true} />;
+  return !post ? (
+    <LoadingOverlay isActive={true} />
+  ) : (
+    <PostEditor post={post} toUpdatePost={true} />
+  );
 }
