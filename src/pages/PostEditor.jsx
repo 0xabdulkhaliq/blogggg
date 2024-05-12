@@ -34,13 +34,23 @@ function InputGroup({
   );
 }
 
-export default function PostEditor() {
-  const [content, setContent] = useState("# Hello World!");
-  const [title, setTitle] = useState("");
-  const [cover, setCover] = useState("");
-  const [description, setDescription] = useState("");
-  const [isPublished, setPublished] = useState(true);
-  const [tag, setTag] = useState(null);
+export default function PostEditor({
+  post = {
+    title: "",
+    cover: "",
+    description: "",
+    content: "# Hello World!",
+    isPublished: true,
+    tag: null,
+  },
+  toUpdatePost,
+}) {
+  const [content, setContent] = useState(post.content);
+  const [title, setTitle] = useState(post.title);
+  const [cover, setCover] = useState(post.cover);
+  const [description, setDescription] = useState(post.description);
+  const [isPublished, setPublished] = useState(post.isPublished);
+  const [tag, setTag] = useState(post.tag);
   const [loading, setLoading] = useState(false);
   const [cancelModal, setCancelModal] = useState(null);
   const navigate = useNavigate();
@@ -62,25 +72,34 @@ export default function PostEditor() {
     setLoading(true);
 
     try {
-      await fetch("http://localhost:3000/blog/create-post", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          cover,
-          description,
-          isPublished,
-          tag,
-        }),
-      });
+      await fetch(
+        `http://localhost:3000/blog/${
+          toUpdatePost ? `update-post/${post._id}` : "create-post"
+        }`,
+        {
+          method: toUpdatePost ? "PATCH" : "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            content,
+            cover,
+            description,
+            isPublished,
+            tag,
+          }),
+        }
+      );
     } catch (error) {
-      console.log("Error during Creating the Post: ", error);
+      console.log(
+        `Error during ${toUpdatePost ? "Updating" : "Creating"} the Post: `,
+        error
+      );
     } finally {
       setLoading(false);
+      closePostEditor();
     }
   };
 
@@ -89,7 +108,7 @@ export default function PostEditor() {
       <form
         onSubmit={preventDefaultSubmission}
         noValidate
-        className="flex flex-col gap-4"
+        className={`flex flex-col gap-4 ${loading && "pointer-events-none"}`}
       >
         <InputGroup label={"title"} value={title} setter={setTitle} />
         <InputGroup
@@ -175,7 +194,7 @@ export default function PostEditor() {
           >
             {loading ? (
               <span className="flex">
-                Creating Post..
+                {toUpdatePost ? "Updating" : "Creating"} Post..
                 <Loader
                   strokeWidth={1.5}
                   width={20}
@@ -184,7 +203,7 @@ export default function PostEditor() {
                 />
               </span>
             ) : (
-              "Create Post"
+              `${toUpdatePost ? "Update" : "Create"} Post`
             )}
           </button>
         </div>

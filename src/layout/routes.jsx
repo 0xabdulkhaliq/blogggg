@@ -7,6 +7,7 @@ import BlogPost from "../components/BlogPost";
 import Admin from "./Admin";
 import PostEditor from "../pages/PostEditor";
 import Posts from "../components/Posts";
+import EditPost from "../pages/EditPost";
 
 const routes = [
   {
@@ -48,6 +49,10 @@ const routes = [
           {
             path: "create-post",
             element: <PostEditor />,
+          },
+          {
+            path: "edit-post",
+            element: <EditPost />,
           },
         ],
       },

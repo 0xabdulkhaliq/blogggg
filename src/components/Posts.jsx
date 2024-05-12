@@ -9,7 +9,7 @@ import { listPosts } from "../utils/blog";
 import Card from "./Card";
 import CardSkeleton from "./CardSkeleton";
 import ServiceUnavailable from "./ServiceUnavailable";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Posts({
   postInitLimit,
@@ -21,6 +21,11 @@ export default function Posts({
   const [posts, setPosts] = useState(false);
   const [isPublished, setPublished] = useState(true);
   const [tag, setTag] = useState("All");
+  const navigate = useNavigate();
+
+  const openPostEditor = (id) => {
+    navigate("/admin/edit-post", { state: { postId: id } });
+  };
 
   const getPosts = async (offset) => {
     const result = await listPosts(
@@ -30,6 +35,7 @@ export default function Posts({
       isAdmin ? isPublished : true
     );
     setPosts(result);
+
     return new Promise((resolve) => setTimeout(resolve, 1500));
   };
 
@@ -53,7 +59,7 @@ export default function Posts({
   return !loading && !posts ? (
     <ServiceUnavailable />
   ) : (
-    <div className={`mb-4 max-w-[82rem] mx-auto ${loading && "w-full"}`}>
+    <div className={`mb-4 w-full max-w-[82rem] mx-auto ${loading && "w-full"}`}>
       {showTags && (
         <div
           className={`sticky bg-gray-50 shadow-[0_20px_20px_#f9fafb] ${
@@ -132,7 +138,10 @@ export default function Posts({
                 title={post.title}
                 cover={post.cover}
                 date={post.createdAt}
+                description={post.description}
                 id={post._id}
+                showOptions={isAdmin}
+                editPost={isAdmin && openPostEditor}
               />
             ))}
       </div>
@@ -156,7 +165,8 @@ export default function Posts({
               <ChevronLeft color="#444" />
             </button>
             <p className="grid place-items-center px-3 h-8">
-              {posts.offset ? posts.totalCount / posts.offset : 1} of {""}
+              {Math.floor(posts.offset ? posts.totalCount / posts.offset : 1)}{" "}
+              of {""}
               {Math.ceil(posts.totalCount / posts.limit)}
             </p>
             <button
