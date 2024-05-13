@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { viewPost } from "../utils/blog";
-import Markdown from "react-markdown";
 import CommentsBlock from "./CommentsSection";
+import MarkdownEditor from "@uiw/react-markdown-editor";
 
 export default function BlogPost() {
   const { postId } = useParams();
@@ -26,11 +26,11 @@ export default function BlogPost() {
       <h1 className="font-kalnia text-2xl md:text-3xl text-center mt-2 mb-4">
         {post.title}
       </h1>
-      <img src={post.cover} alt="" className="rounded-lg shadow" />
-      <Markdown
+      <img src={post.cover} alt="" className="rounded-lg shadow mb-5" />
+      <MarkdownEditor.Markdown
         components={{
           p(props) {
-            return <p className="leading-6 my-5">{props.children}</p>;
+            return <p className="leading-6 !my-6">{props.children}</p>;
           },
           img(props) {
             return (
@@ -38,10 +38,9 @@ export default function BlogPost() {
             );
           },
         }}
-      >
-        {post.content}
-      </Markdown>
-      <hr />
+        source={post.content}
+      />
+      <hr className="mt-5" />
       <CommentsBlock postId={postId} />
     </div>
   );
