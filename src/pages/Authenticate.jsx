@@ -22,16 +22,27 @@ export default function Authenticate({ action }) {
 
     auth(action, usernameRef.current, passwordRef.current)
       .then(() => navigate("/", { replace: true }))
-      .catch((error) => {
-        error.message.split(" ")[1] === "password"
-          ? setPasswordError("Incorrect password")
-          : setUsernameError("Incorrect username");
+      .catch(async (err) => {
+        if (action === "login") {
+          const { message } = await err;
+
+          message.split(" ")[1] === "password"
+            ? setPasswordError(message)
+            : setUsernameError(message);
+        } else {
+          const { errors } = await err;
+
+          if (errors.username) setUsernameError(errors.username);
+          if (errors.password) setPasswordError(errors.password);
+        }
       });
   };
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="font-kalnia text-4xl md:text-5xl">{action}</h1>
+      <h1 className="font-kalnia text-4xl capitalize md:text-5xl">
+        {action.split("-")}
+      </h1>
 
       <form
         className="my-5 flex flex-col gap-4 w-11/12 max-w-xl"

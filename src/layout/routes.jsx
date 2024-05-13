@@ -28,11 +28,11 @@ const routes = [
       },
       {
         path: "login",
-        element: <Authenticate action={"Login"} />,
+        element: <Authenticate action={"login"} />,
       },
       {
         path: "signup",
-        element: <Authenticate action={"Sign Up"} />,
+        element: <Authenticate action={"sign-up"} />,
       },
       {
         path: "post/:postId",
