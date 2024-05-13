@@ -1,4 +1,4 @@
-import { Trash2, Loader } from "react-feather";
+import { Loader } from "react-feather";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../context/AuthenticationContext";
 import { viewCommentsForPost } from "../utils/blog";

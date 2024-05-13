@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Edit } from "react-feather";
+import { Edit, Trash2 } from "react-feather";
 
 export default function Card({
   date,
@@ -9,6 +9,7 @@ export default function Card({
   id,
   showOptions,
   editPost,
+  deletePost,
 }) {
   const formattedDate = new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
@@ -30,6 +31,14 @@ export default function Card({
               className="outline outline-1 transition-[background,transform] outline-indigo-300 bg-indigo-100 rounded p-2 hover:bg-indigo-200 hover:outline-indigo-400 hover:scale-110 active:scale-90 disabled:pointer-events-none"
             >
               <Edit strokeWidth={1.5} width={20} height={20} />
+            </button>
+            <button
+              aria-label="Delete Post"
+              title="Delete Post"
+              onClick={() => deletePost(id)}
+              className="outline outline-1 transition-[background,transform] outline-red-300 bg-red-100 rounded-md p-2 hover:bg-red-200 hover:outline-red-400 hover:scale-110 active:scale-90 disabled:pointer-events-none"
+            >
+              <Trash2 strokeWidth={1.5} width={20} height={20} />
             </button>
           </div>
         )}
