@@ -1,6 +1,6 @@
 import { Loader } from "react-feather";
 
-export default function LoadingOverlay({ isActive }) {
+export default function LoadingOverlay({ isActive = true }) {
   return (
     isActive && (
       <div className="grid place-items-center fixed z-20 inset-0 px-2 bg-[#fff7] backdrop-blur-sm">

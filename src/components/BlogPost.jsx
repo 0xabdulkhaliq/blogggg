@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { viewPost } from "../utils/blog";
 import CommentsBlock from "./CommentsSection";
 import MarkdownEditor from "@uiw/react-markdown-editor";
+import LoadingOverlay from "./LoadingOverlay";
 
 export default function BlogPost() {
   const { postId } = useParams();
@@ -18,7 +19,7 @@ export default function BlogPost() {
   }, [postId]);
 
   if (!post) {
-    return <div>Loading...</div>;
+    return <LoadingOverlay />;
   }
 
   return (

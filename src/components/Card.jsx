@@ -44,7 +44,7 @@ export default function Card({
         )}
       </div>
       <h2 className="heading text-2xl capitalize p-3 py-4">{title}</h2>
-      <img className="max-h-36 w-full object-cover card" src={cover} alt="" />
+      <img className="h-36 w-full object-cover card" src={cover} alt="" />
       <p className="p-3">
         {description ||
           `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime placeat

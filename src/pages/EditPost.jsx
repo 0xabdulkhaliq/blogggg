@@ -19,7 +19,7 @@ export default function EditPost() {
   }, [postId]);
 
   return !post ? (
-    <LoadingOverlay isActive={true} />
+    <LoadingOverlay />
   ) : (
     <PostEditor post={post} toUpdatePost={true} />
   );
