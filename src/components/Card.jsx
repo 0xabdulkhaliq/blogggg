@@ -18,7 +18,7 @@ export default function Card({
   });
 
   return (
-    <div className="max-w-xl mx-auto outline-1 outline bg-gray-50 outline-gray-400 md:max-w-96 lg:max-w-md">
+    <div className="max-w-xl relative pb-6 mx-auto outline-1 outline bg-gray-50 outline-gray-400 md:max-w-96 lg:max-w-md">
       <div className="p-3 flex items-center justify-between border-b border-b-gray-400">
         <p className={showOptions ? "text-sm" : "text-xs"}>{formattedDate}</p>
 
@@ -52,7 +52,7 @@ export default function Card({
         architecto numquam obcaecati assumenda sapiente consequatur.`}
       </p>
       <Link
-        className="p-3 w-max float-right pt-1 block text-right underline underline-offset-4"
+        className="w-max float-right absolute bottom-3 right-3 block text-right underline underline-offset-4"
         to={`/post/${id}`}
       >
         Read ---&gt;
