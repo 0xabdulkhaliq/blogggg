@@ -13,14 +13,17 @@ export default function Comment({ item, user, setDeleteModal, deleteId }) {
     setUpdating(true);
 
     try {
-      await fetch(`http://localhost:3000/blog/update-comment/${item._id}`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content }),
-      });
+      await fetch(
+        `https://blogggg-backend.vercel.app/blog/update-comment/${item._id}`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content }),
+        }
+      );
     } catch (error) {
       console.log("Error during Updating comment: ", error);
       setContent(item.content);

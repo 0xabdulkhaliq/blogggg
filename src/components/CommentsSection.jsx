@@ -23,7 +23,7 @@ export default function CommentsBlock({ postId }) {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/blog/create-comment/${postId}`,
+        `https://blogggg-backend.vercel.app/blog/create-comment/${postId}`,
         {
           method: "POST",
           credentials: "include",
@@ -54,10 +54,13 @@ export default function CommentsBlock({ postId }) {
     setDeleteModal(false);
     setDeleteId(id);
 
-    fetch(`http://localhost:3000/blog/delete-comment/${id}?delete=true`, {
-      method: "DELETE",
-      credentials: "include",
-    })
+    fetch(
+      `https://blogggg-backend.vercel.app/blog/delete-comment/${id}?delete=true`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    )
       .then(() => {
         setComments(comments.filter((item) => item._id !== id));
       })

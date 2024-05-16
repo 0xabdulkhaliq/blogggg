@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const auth = (action, username, password) => {
-    return fetch(`http://localhost:3000/user/${action}`, {
+    return fetch(`https://blogggg-backend.vercel.app/user/${action}`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -34,9 +34,12 @@ export const AuthProvider = ({ children }) => {
 
   const validateAuth = async () => {
     try {
-      const response = await fetch("http://localhost:3000/user/auth", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://blogggg-backend.vercel.app/user/auth",
+        {
+          credentials: "include",
+        }
+      );
 
       const data = response.ok ? await response.json() : false;
 
@@ -52,9 +55,12 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/user/logout", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://blogggg-backend.vercel.app/user/logout",
+        {
+          credentials: "include",
+        }
+      );
 
       if (response.ok) setUser(null);
     } catch (err) {

@@ -73,7 +73,7 @@ export default function PostEditor({
 
     try {
       await fetch(
-        `http://localhost:3000/blog/${
+        `https://blogggg-backend.vercel.app/blog/${
           toUpdatePost ? `update-post/${post._id}` : "create-post"
         }`,
         {

@@ -1,7 +1,7 @@
 export const listPosts = async (limit, offset, tag, isPublished) => {
   try {
     const request = await fetch(
-      `http://localhost:3000/blog/list-posts?limit=${limit}&tag=${tag}&offset=${offset}${
+      `https://blogggg-backend.vercel.app/blog/list-posts?limit=${limit}&tag=${tag}&offset=${offset}${
         isPublished ? "" : "&isNotPublished=true"
       }`,
       { credentials: "include" }
@@ -14,7 +14,9 @@ export const listPosts = async (limit, offset, tag, isPublished) => {
 
 export const viewPost = async (id) => {
   try {
-    const postReq = await fetch(`http://localhost:3000/blog/view-post/${id}`);
+    const postReq = await fetch(
+      `https://blogggg-backend.vercel.app/blog/view-post/${id}`
+    );
     const post = await postReq.json();
 
     return post;
@@ -26,7 +28,7 @@ export const viewPost = async (id) => {
 export const viewCommentsForPost = async (id) => {
   try {
     const commentsReq = await fetch(
-      `http://localhost:3000/blog/${id}/comments`
+      `https://blogggg-backend.vercel.app/blog/${id}/comments`
     );
     const comments = await commentsReq.json();
 

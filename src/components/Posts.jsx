@@ -33,7 +33,7 @@ export default function Posts({
     setDeleteModal(false);
     setLoading(true);
 
-    fetch(`http://localhost:3000/blog/delete-post/${id}?delete=true`, {
+    fetch(`https://blogggg-backend.vercel.app/blog/delete-post/${id}?delete=true`, {
       method: "DELETE",
       credentials: "include",
     })
