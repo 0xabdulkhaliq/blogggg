@@ -17,11 +17,11 @@ function Navbar() {
         <div className="flex flex-col md:flex-row mt-4 justify-around items-center gap-3 md:m-0 md:gap-6">
           <div className="flex gap-2 items-center">
             <img
-              src="https://github.com/0xabdulkhalid.png"
+              src="https://github.com/0xabdulkhaliq.png"
               alt=""
               className="w-8 h-8 rounded-full bg-gray-800 shadow-md"
             />
-            <p className="font-bold tracking-wider">0xabdulkhalid</p>
+            <p className="font-bold tracking-wider">0xabdulkhaliq</p>
           </div>
 
           <hr className="my-3 w-full md:hidden" />

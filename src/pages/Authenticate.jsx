@@ -58,7 +58,7 @@ export default function Authenticate({ action }) {
             onChange={(e) => {
               usernameRef.current = e.target.value;
             }}
-            placeholder="eg: 0xabdulkhalid"
+            placeholder="eg: 0xabdulkhaliq"
             className="p-2 mt-1 bg-gray-100 w-full outline outline-1 outline-gray-400 text-gray-800 rounded text-base"
           />
           {usernameError && (

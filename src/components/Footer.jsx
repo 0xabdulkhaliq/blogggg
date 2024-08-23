@@ -21,7 +21,7 @@ export default function Footer() {
       </div>
       <div className="flex justify-center items-center flex-col gap-3 md:items-start">
         <p className="heading text-3xl">Blogggg.</p>
-        <p>&copy; Copyright 2024 - 0xabdulkhalid</p>
+        <p>&copy; Copyright 2024 - 0xabdulkhaliq</p>
       </div>
     </footer>
   );

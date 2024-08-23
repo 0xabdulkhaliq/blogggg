@@ -1,6 +1,6 @@
 <div align=center>
 
-![Blog](https://i.ibb.co/5K8HkWN/blogggg.webp)
+![Blog](https://i.ibb.co/Lpd7wXs/blogggg.webp)
 
 ### ❝ A full-stack personal blogging platform with an authenticated Express.js API for admin post management and user commenting capabilities, powered by a reactive React.js frontend. ❞
 
@@ -9,9 +9,9 @@
     ❯ &nbsp;
     <a href="https://blogggg-frontend.vercel.app/">View Demo</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/0xabdulkhalid/blogggg/issues">Report Bug</a>
+    <a href="https://github.com/0xabdulkhaliq/blogggg/issues">Report Bug</a>
     &nbsp;·&nbsp;
-    <a href="https://github.com/0xabdulkhalid/blogggg/issues">Request Feature</a>
+    <a href="https://github.com/0xabdulkhaliq/blogggg/issues">Request Feature</a>
      &nbsp; ❮
   </p>
 </div>
@@ -24,7 +24,7 @@
 - Implemented frontend using ReactJS and TailwindCSS with the ability to utilize RESTful API, comes with an Admin Portal where the Admin can manage posts and normal users can do comment on them.
 
 - Utilized [react-markdown-editor](https://www.npmjs.com/package/@uiw/react-markdown-editor) as a text editor while creating posts and also used to preview them for users.
-- Implemented a [RESTful API](https://github.com/0xabdulkhalid/blogggg-backend) which serves as a backend for this application, built using Express.js. It follows the principles of RESTful API design:
+- Implemented a [RESTful API](https://github.com/0xabdulkhaliq/blogggg-backend) which serves as a backend for this application, built using Express.js. It follows the principles of RESTful API design:
   - **Resources**: The API models and exposes resources such as blog posts, users, and comments as JSON data.
   - **HTTP Methods**: It uses standard HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on these resources.
   - **Routes**: The API defines routes (endpoints) that map to the different resources and operations. For example, `/blog` for blog post-related operations, `/user` for user management, and `/comments` for handling comments.
@@ -62,13 +62,13 @@
 ## Let's Connect 👋
 
 <div align=center>
-  <a href="https://linkedin.com/in/0xabdulkhalid" >
+  <a href="https://linkedin.com/in/0xabdulkhaliq" >
     <img src="https://img.shields.io/badge/linkedin-%2300acee.svg?color=405DE6&style=for-the-badge&logo=linkedin&logoColor=white" alt="Linkedin Profile">
   </a>&nbsp;&nbsp;
-  <a href="mailto:0xabdulkhalid@gmail.com" target="_blank">
+  <a href="mailto:0xabdulkhaliq@gmail.com" target="_blank">
     <img src="https://img.shields.io/badge/gmail-%23EA4335.svg?style=for-the-badge&logo=gmail&logoColor=white" alt=mail/>
   </a>&nbsp;&nbsp;
-  <a href="https://www.github.com/0xabdulkhalid/" >
+  <a href="https://www.github.com/0xabdulkhaliq/" >
     <img src="https://img.shields.io/badge/Github-131313?style=for-the-badge&logo=github&logoColor=white" alt="Github Profile">
   </a>
 </div>
